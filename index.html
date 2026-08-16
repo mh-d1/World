@@ -1,0 +1,5487 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+>
+
+<title>Mama Ray's Little World 🌷</title>
+
+<style>
+
+:root {
+    --pink: #ff4f87;
+    --pink-dark: #c92761;
+    --pink-soft: #ffe2ec;
+
+    --green: #4f9d72;
+    --green-dark: #286044;
+    --green-soft: #dff3e7;
+
+    --blue: #5c9edb;
+    --blue-soft: #e4f2ff;
+
+    --yellow: #f3b94f;
+    --yellow-soft: #fff2cf;
+
+    --cream: #fffaf7;
+    --white: #ffffff;
+
+    --text: #241b20;
+    --muted: #65555d;
+
+    --shadow:
+        0 18px 50px rgba(47,31,38,.14);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+body {
+    font-family:
+        Inter,
+        ui-sans-serif,
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+
+    background: var(--cream);
+    color: var(--text);
+}
+
+button {
+    font: inherit;
+    -webkit-tap-highlight-color: transparent;
+}
+
+
+/* =========================================================
+   HOME
+========================================================= */
+
+#home {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 20px;
+
+    background:
+        radial-gradient(
+            circle at 10% 15%,
+            rgba(255,79,135,.18),
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at 90% 20%,
+            rgba(79,157,114,.18),
+            transparent 30%
+        ),
+        var(--cream);
+
+    transition:
+        opacity .7s ease,
+        visibility .7s ease;
+}
+
+#home.hide {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.home-card {
+    width: min(760px,100%);
+
+    position: relative;
+    overflow: hidden;
+
+    padding:
+        clamp(32px,7vw,70px);
+
+    border-radius: 42px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #ffffff,
+            #fff7fa 55%,
+            #effaf3
+        );
+
+    border:
+        1px solid rgba(36,27,32,.1);
+
+    box-shadow: var(--shadow);
+}
+
+.home-decoration {
+    position: absolute;
+    font-size: 80px;
+    opacity: .75;
+    user-select: none;
+}
+
+.flower-a {
+    top: 25px;
+    right: 35px;
+    transform: rotate(12deg);
+}
+
+.flower-b {
+    bottom: 15px;
+    left: 25px;
+    font-size: 55px;
+}
+
+.eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+
+    padding: 9px 14px;
+
+    border-radius: 999px;
+
+    background: var(--green-soft);
+    color: var(--green-dark);
+
+    font-size: 13px;
+    font-weight: 900;
+
+    margin-bottom: 24px;
+}
+
+.home-card h1 {
+    font-size:
+        clamp(48px,10vw,92px);
+
+    line-height: .88;
+    letter-spacing: -.07em;
+
+    margin-bottom: 28px;
+}
+
+.home-card h1 span {
+    color: var(--pink-dark);
+}
+
+.home-description {
+    max-width: 600px;
+
+    font-size:
+        clamp(16px,2vw,20px);
+
+    line-height: 1.7;
+}
+
+.home-description strong {
+    color: var(--green-dark);
+}
+
+.start-button {
+    margin-top: 30px;
+
+    border: 0;
+
+    padding: 16px 23px;
+
+    border-radius: 17px;
+
+    background: var(--pink);
+
+    color: #fff;
+
+    font-weight: 900;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 12px 28px rgba(201,39,97,.25);
+
+    transition: .2s ease;
+}
+
+.start-button:hover {
+    transform: translateY(-3px);
+}
+
+
+/* =========================================================
+   GAME
+========================================================= */
+
+#game {
+    position: fixed;
+    inset: 0;
+
+    background: #dff3e7;
+}
+
+canvas {
+    display: block;
+}
+
+
+/* =========================================================
+   HUD
+========================================================= */
+
+#hud {
+    position: fixed;
+    inset: 0;
+
+    z-index: 20;
+
+    pointer-events: none;
+
+    opacity: 0;
+
+    transition: opacity .5s ease;
+}
+
+#hud.active {
+    opacity: 1;
+}
+
+.top-hud {
+    position: absolute;
+
+    top: 14px;
+    left: 14px;
+    right: 14px;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: flex-start;
+
+    gap: 12px;
+}
+
+.hud-left {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.day-box,
+.stats-box,
+.character-box {
+    padding: 10px 14px;
+
+    border-radius: 15px;
+
+    background:
+        rgba(255,255,255,.92);
+
+    backdrop-filter: blur(12px);
+
+    box-shadow:
+        0 8px 25px rgba(0,0,0,.1);
+}
+
+.day-box {
+    font-weight: 900;
+    color: var(--green-dark);
+}
+
+.stats-box {
+    display: flex;
+    gap: 13px;
+
+    font-size: 13px;
+    font-weight: 800;
+}
+
+.energy-bar {
+    width: 95px;
+    height: 7px;
+
+    margin-top: 5px;
+
+    overflow: hidden;
+
+    border-radius: 999px;
+
+    background: #eadfe3;
+}
+
+.energy-fill {
+    height: 100%;
+    width: 100%;
+
+    border-radius: inherit;
+
+    background: var(--pink);
+
+    transition: width .25s ease;
+}
+
+.character-box {
+    color: var(--pink-dark);
+    font-weight: 900;
+}
+
+.quest-box {
+    max-width: 310px;
+
+    padding: 13px 16px;
+
+    border-radius: 18px;
+
+    background:
+        rgba(255,255,255,.94);
+
+    backdrop-filter: blur(12px);
+
+    box-shadow:
+        0 8px 25px rgba(0,0,0,.1);
+}
+
+.quest-label {
+    color: var(--pink-dark);
+
+    font-size: 11px;
+    font-weight: 900;
+
+    letter-spacing: .1em;
+    text-transform: uppercase;
+
+    margin-bottom: 5px;
+}
+
+.quest-title {
+    font-size: 14px;
+    font-weight: 900;
+}
+
+.quest-progress {
+    color: var(--muted);
+
+    font-size: 12px;
+
+    margin-top: 4px;
+}
+
+
+/* =========================================================
+   ACTION HINT
+========================================================= */
+
+#interaction {
+    position: fixed;
+
+    left: 50%;
+    bottom: 24px;
+
+    z-index: 30;
+
+    transform:
+        translate(-50%,15px);
+
+    opacity: 0;
+
+    padding: 11px 17px;
+
+    border-radius: 999px;
+
+    background:
+        rgba(255,255,255,.96);
+
+    box-shadow:
+        0 10px 30px rgba(0,0,0,.13);
+
+    font-size: 13px;
+    font-weight: 900;
+
+    transition: .2s ease;
+
+    pointer-events: none;
+}
+
+#interaction.show {
+    opacity: 1;
+    transform:
+        translate(-50%,0);
+}
+
+
+/* =========================================================
+   DIALOG
+========================================================= */
+
+#dialog {
+    position: fixed;
+    inset: 0;
+
+    z-index: 80;
+
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+
+    padding:
+        18px 18px
+        max(18px,env(safe-area-inset-bottom));
+
+    background:
+        rgba(36,27,32,.10);
+
+    pointer-events: none;
+
+    opacity: 0;
+    visibility: hidden;
+
+    transition: .2s ease;
+}
+
+#dialog.show {
+    opacity: 1;
+    visibility: visible;
+
+    pointer-events: auto;
+}
+
+.dialog-card {
+    width: min(720px,100%);
+
+    padding: 20px 21px;
+
+    border-radius: 25px;
+
+    background: #fff;
+
+    box-shadow: var(--shadow);
+
+    transform: translateY(25px);
+
+    transition: .25s ease;
+}
+
+#dialog.show .dialog-card {
+    transform: translateY(0);
+}
+
+.dialog-name {
+    color: var(--pink-dark);
+
+    font-size: 11px;
+    font-weight: 900;
+
+    text-transform: uppercase;
+    letter-spacing: .1em;
+
+    margin-bottom: 7px;
+}
+
+.dialog-text {
+    font-size:
+        clamp(17px,4vw,23px);
+
+    line-height: 1.45;
+
+    font-weight: 800;
+
+    margin-bottom: 15px;
+}
+
+.dialog-actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.dialog-button {
+    border: 0;
+
+    padding: 11px 16px;
+
+    border-radius: 12px;
+
+    background: var(--green-dark);
+
+    color: white;
+
+    font-weight: 900;
+
+    cursor: pointer;
+}
+
+.dialog-button.secondary {
+    background: var(--pink-soft);
+    color: var(--pink-dark);
+}
+
+
+/* =========================================================
+   INVENTORY
+========================================================= */
+
+#inventory {
+    position: fixed;
+
+    top: 86px;
+    right: 15px;
+
+    z-index: 60;
+
+    width: min(310px,calc(100% - 30px));
+
+    padding: 17px;
+
+    border-radius: 22px;
+
+    background:
+        rgba(255,255,255,.97);
+
+    box-shadow: var(--shadow);
+
+    opacity: 0;
+    visibility: hidden;
+
+    transform:
+        translateY(-8px);
+
+    transition: .2s ease;
+}
+
+#inventory.show {
+    opacity: 1;
+    visibility: visible;
+
+    transform:
+        translateY(0);
+}
+
+.inventory-title {
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    margin-bottom: 13px;
+}
+
+.inventory-title strong {
+    font-size: 17px;
+}
+
+.close-small {
+    border: 0;
+
+    width: 30px;
+    height: 30px;
+
+    border-radius: 50%;
+
+    background: #f3eef0;
+
+    cursor: pointer;
+}
+
+.inventory-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3,1fr);
+
+    gap: 8px;
+}
+
+.inventory-item {
+    min-height: 76px;
+
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 3px;
+
+    border-radius: 13px;
+
+    background: #faf7f8;
+
+    font-size: 12px;
+    font-weight: 800;
+
+    text-align: center;
+}
+
+.inventory-item .icon {
+    font-size: 25px;
+}
+
+.inventory-empty {
+    grid-column: 1/-1;
+
+    padding: 20px;
+
+    text-align: center;
+
+    color: var(--muted);
+
+    font-size: 13px;
+}
+
+
+/* =========================================================
+   SHOP PANEL
+========================================================= */
+
+#shopPanel {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+
+    z-index: 90;
+
+    width: min(500px,calc(100% - 30px));
+
+    transform:
+        translate(-50%,-47%)
+        scale(.96);
+
+    padding: 22px;
+
+    border-radius: 25px;
+
+    background: #fff;
+
+    box-shadow: var(--shadow);
+
+    opacity: 0;
+    visibility: hidden;
+
+    transition: .2s ease;
+}
+
+#shopPanel.show {
+    opacity: 1;
+    visibility: visible;
+
+    transform:
+        translate(-50%,-50%)
+        scale(1);
+}
+
+.shop-header {
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    margin-bottom: 6px;
+}
+
+.shop-header h2 {
+    font-size: 22px;
+}
+
+.shop-description {
+    color: var(--muted);
+
+    font-size: 13px;
+
+    margin-bottom: 17px;
+}
+
+.shop-items {
+    display: grid;
+    gap: 9px;
+}
+
+.shop-item {
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    padding: 12px;
+
+    border-radius: 15px;
+
+    background: #faf7f8;
+}
+
+.shop-icon {
+    width: 48px;
+    height: 48px;
+
+    display: grid;
+    place-items: center;
+
+    flex: 0 0 48px;
+
+    border-radius: 13px;
+
+    background: #fff;
+    font-size: 27px;
+}
+
+.shop-info {
+    flex: 1;
+}
+
+.shop-info strong {
+    display: block;
+    margin-bottom: 2px;
+}
+
+.shop-info span {
+    font-size: 12px;
+    color: var(--muted);
+}
+
+.buy-button {
+    border: 0;
+
+    padding: 9px 12px;
+
+    border-radius: 10px;
+
+    background: var(--pink);
+
+    color: #fff;
+
+    font-size: 12px;
+    font-weight: 900;
+
+    cursor: pointer;
+}
+
+.buy-button.owned {
+    background: #dfe8e2;
+    color: var(--green-dark);
+    cursor: default;
+}
+
+.buy-button.disabled {
+    background: #ddd;
+    color: #777;
+}
+
+
+/* =========================================================
+   FISHING PANEL
+========================================================= */
+
+#fishing {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+
+    z-index: 95;
+
+    width: min(430px,calc(100% - 30px));
+
+    transform:
+        translate(-50%,-50%)
+        scale(.96);
+
+    padding: 23px;
+
+    border-radius: 25px;
+
+    background: white;
+
+    box-shadow: var(--shadow);
+
+    opacity: 0;
+    visibility: hidden;
+
+    transition: .2s ease;
+
+    text-align: center;
+}
+
+#fishing.show {
+    opacity: 1;
+    visibility: visible;
+
+    transform:
+        translate(-50%,-50%)
+        scale(1);
+}
+
+.fishing-title {
+    font-size: 22px;
+    font-weight: 900;
+}
+
+.fishing-subtitle {
+    color: var(--muted);
+    font-size: 13px;
+
+    margin:
+        6px 0 18px;
+}
+
+.fishing-meter {
+    position: relative;
+
+    height: 20px;
+
+    overflow: hidden;
+
+    border-radius: 999px;
+
+    background: #e9e9e9;
+}
+
+.fishing-target {
+    position: absolute;
+
+    top: 0;
+    bottom: 0;
+
+    left: 45%;
+
+    width: 20%;
+
+    background: #b8e2c8;
+}
+
+.fishing-marker {
+    position: absolute;
+
+    top: 2px;
+    bottom: 2px;
+
+    left: 0%;
+
+    width: 14px;
+
+    border-radius: 50%;
+
+    background: var(--pink);
+}
+
+.fishing-status {
+    margin-top: 12px;
+
+    font-weight: 900;
+}
+
+.fishing-button {
+    margin-top: 16px;
+
+    border: 0;
+
+    padding: 12px 20px;
+
+    border-radius: 13px;
+
+    background: var(--blue);
+
+    color: white;
+
+    font-weight: 900;
+
+    cursor: pointer;
+}
+
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+#toast {
+    position: fixed;
+
+    top: 50%;
+    left: 50%;
+
+    z-index: 200;
+
+    transform:
+        translate(-50%,-50%)
+        scale(.92);
+
+    opacity: 0;
+
+    pointer-events: none;
+
+    max-width:
+        min(420px,calc(100% - 30px));
+
+    padding: 17px 20px;
+
+    border-radius: 20px;
+
+    background: #fff;
+
+    box-shadow: var(--shadow);
+
+    text-align: center;
+
+    font-weight: 900;
+
+    transition: .25s ease;
+}
+
+#toast.show {
+    opacity: 1;
+
+    transform:
+        translate(-50%,-50%)
+        scale(1);
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+#mobile {
+    position: fixed;
+
+    left: 15px;
+    bottom: 15px;
+
+    z-index: 40;
+
+    display: none;
+
+    pointer-events: none;
+}
+
+.joystick {
+    width: 105px;
+    height: 105px;
+
+    border-radius: 50%;
+
+    background:
+        rgba(255,255,255,.25);
+
+    border:
+        2px solid rgba(255,255,255,.55);
+
+    backdrop-filter: blur(8px);
+
+    position: relative;
+
+    pointer-events: auto;
+
+    touch-action: none;
+}
+
+.stick {
+    position: absolute;
+
+    width: 44px;
+    height: 44px;
+
+    left: 50%;
+    top: 50%;
+
+    transform:
+        translate(-50%,-50%);
+
+    border-radius: 50%;
+
+    background: white;
+
+    box-shadow:
+        0 6px 20px rgba(0,0,0,.15);
+}
+
+.mobile-action,
+.mobile-switch,
+.mobile-bag {
+    position: fixed;
+
+    z-index: 40;
+
+    border: 0;
+
+    width: 58px;
+    height: 58px;
+
+    border-radius: 50%;
+
+    color: white;
+
+    font-weight: 900;
+
+    box-shadow:
+        0 10px 30px rgba(0,0,0,.18);
+
+    pointer-events: auto;
+}
+
+.mobile-action {
+    right: 20px;
+    bottom: 25px;
+
+    background: var(--pink);
+
+    font-size: 20px;
+}
+
+.mobile-switch {
+    right: 90px;
+    bottom: 25px;
+
+    background: var(--green-dark);
+
+    font-size: 16px;
+}
+
+.mobile-bag {
+    right: 20px;
+    bottom: 95px;
+
+    background: #fff;
+
+    color: var(--pink-dark);
+
+    font-size: 20px;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width:700px) {
+
+    #mobile,
+    .mobile-action,
+    .mobile-switch,
+    .mobile-bag {
+        display: block;
+    }
+
+    .quest-box {
+        max-width: 215px;
+    }
+
+    .stats-box {
+        flex-direction: column;
+        gap: 4px;
+    }
+
+    .character-box {
+        display: none;
+    }
+
+    #inventory {
+        top: 80px;
+    }
+
+}
+
+@media (max-width:450px) {
+
+    .quest-box {
+        max-width: 175px;
+    }
+
+    .quest-title {
+        font-size: 12px;
+    }
+
+    .quest-progress {
+        font-size: 10px;
+    }
+
+    .day-box,
+    .stats-box {
+        padding: 8px 10px;
+    }
+
+    .dialog-card {
+        padding: 17px;
+    }
+
+}
+
+</style>
+</head>
+
+
+<body>
+
+
+<!-- =======================================================
+     HOME
+======================================================= -->
+
+<div id="home">
+
+    <div class="home-card">
+
+        <div class="home-decoration flower-a">
+            🌷
+        </div>
+
+        <div class="home-decoration flower-b">
+            🌿
+        </div>
+
+        <div class="eyebrow">
+            🌿 A tiny cozy world
+        </div>
+
+        <h1>
+            Mama Ray's<br>
+            <span>Little World.</span>
+        </h1>
+
+        <p class="home-description">
+
+            Sebuah desa kecil untuk jalan-jalan,
+            menanam bunga, memancing, ngobrol,
+            dan tentu saja menjalankan misi paling penting:
+
+            <br><br>
+
+            <strong>
+                ngajak Papah jajan es krim. 🍦
+            </strong>
+
+            <br><br>
+
+            Kamu juga bisa berganti karakter.
+            Mama Ray lebih jago berkebun,
+            Papah lebih cocok duduk santai sambil mancing. 🎣
+
+        </p>
+
+        <button
+            class="start-button"
+            id="startGame"
+        >
+            Mulai hari 🌷
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- =======================================================
+     GAME
+======================================================= -->
+
+<div id="game"></div>
+
+
+<!-- =======================================================
+     HUD
+======================================================= -->
+
+<div id="hud">
+
+    <div class="top-hud">
+
+        <div class="hud-left">
+
+            <div class="day-box">
+                🌤️ Hari
+                <span id="day">1</span>
+                ·
+                <span id="time">08:00</span>
+            </div>
+
+            <div class="stats-box">
+
+                <div>
+                    💗
+                    <span id="heart">2</span>
+                </div>
+
+                <div>
+                    🪙
+                    <span id="coins">50</span>
+                </div>
+
+                <div>
+                    ⚡
+
+                    <div class="energy-bar">
+
+                        <div
+                            class="energy-fill"
+                            id="energy"
+                        ></div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div
+                class="character-box"
+                id="characterBox"
+            >
+                🌷 Mama Ray
+            </div>
+
+        </div>
+
+
+        <div class="quest-box">
+
+            <div class="quest-label">
+                Quest aktif
+            </div>
+
+            <div
+                class="quest-title"
+                id="questTitle"
+            >
+                Ajak Papah jajan es krim
+            </div>
+
+            <div
+                class="quest-progress"
+                id="questProgress"
+            >
+                Temui Papah
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =======================================================
+     INTERACTION
+======================================================= -->
+
+<div id="interaction">
+    E · Interaksi
+</div>
+
+
+<!-- =======================================================
+     DIALOG
+======================================================= -->
+
+<div id="dialog">
+
+    <div class="dialog-card">
+
+        <div
+            class="dialog-name"
+            id="dialogName"
+        >
+            Mama Ray
+        </div>
+
+        <div
+            class="dialog-text"
+            id="dialogText"
+        >
+            ...
+        </div>
+
+        <div class="dialog-actions">
+
+            <button
+                class="dialog-button"
+                id="dialogNext"
+            >
+                Lanjut
+            </button>
+
+            <button
+                class="dialog-button secondary"
+                id="dialogClose"
+            >
+                Tutup
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =======================================================
+     INVENTORY
+======================================================= -->
+
+<div id="inventory">
+
+    <div class="inventory-title">
+
+        <strong>
+            🎒 Tas Mama Ray
+        </strong>
+
+        <button
+            class="close-small"
+            id="inventoryClose"
+        >
+            ×
+        </button>
+
+    </div>
+
+    <div
+        class="inventory-grid"
+        id="inventoryGrid"
+    ></div>
+
+</div>
+
+
+<!-- =======================================================
+     SHOP
+======================================================= -->
+
+<div id="shopPanel">
+
+    <div class="shop-header">
+
+        <h2 id="shopTitle">
+            🏪 Toko
+        </h2>
+
+        <button
+            class="close-small"
+            id="shopClose"
+        >
+            ×
+        </button>
+
+    </div>
+
+    <p
+        class="shop-description"
+        id="shopDescription"
+    >
+        Belanja kebutuhan kecil desa.
+    </p>
+
+    <div
+        class="shop-items"
+        id="shopItems"
+    ></div>
+
+</div>
+
+
+<!-- =======================================================
+     FISHING
+======================================================= -->
+
+<div id="fishing">
+
+    <div class="fishing-title">
+        🎣 Mancing
+    </div>
+
+    <div class="fishing-subtitle">
+        Tekan tombol ketika penanda berada
+        di area hijau.
+    </div>
+
+    <div class="fishing-meter">
+
+        <div
+            class="fishing-target"
+        ></div>
+
+        <div
+            class="fishing-marker"
+            id="fishingMarker"
+        ></div>
+
+    </div>
+
+    <div
+        class="fishing-status"
+        id="fishingStatus"
+    >
+        Tunggu...
+    </div>
+
+    <button
+        class="fishing-button"
+        id="fishingCatch"
+    >
+        🎣 Tarik!
+    </button>
+
+</div>
+
+
+<!-- =======================================================
+     TOAST
+======================================================= -->
+
+<div id="toast"></div>
+
+
+<!-- =======================================================
+     MOBILE
+======================================================= -->
+
+<div id="mobile">
+
+    <div
+        class="joystick"
+        id="joystick"
+    >
+
+        <div
+            class="stick"
+            id="stick"
+        ></div>
+
+    </div>
+
+</div>
+
+
+<button
+    class="mobile-bag"
+    id="mobileBag"
+>
+    🎒
+</button>
+
+
+<button
+    class="mobile-switch"
+    id="mobileSwitch"
+>
+    🔄
+</button>
+
+
+<button
+    class="mobile-action"
+    id="mobileAction"
+>
+    E
+</button>
+
+
+<script>
+
+/* ==========================================================
+   CANVAS
+========================================================== */
+
+const canvas =
+    document.createElement("canvas");
+
+const ctx =
+    canvas.getContext("2d");
+
+document
+    .getElementById("game")
+    .appendChild(canvas);
+
+
+/* ==========================================================
+   ELEMENTS
+========================================================== */
+
+const home =
+    document.getElementById("home");
+
+const hud =
+    document.getElementById("hud");
+
+const dialog =
+    document.getElementById("dialog");
+
+const dialogName =
+    document.getElementById("dialogName");
+
+const dialogText =
+    document.getElementById("dialogText");
+
+const interaction =
+    document.getElementById("interaction");
+
+const toast =
+    document.getElementById("toast");
+
+const dayElement =
+    document.getElementById("day");
+
+const timeElement =
+    document.getElementById("time");
+
+const heartElement =
+    document.getElementById("heart");
+
+const coinsElement =
+    document.getElementById("coins");
+
+const energyElement =
+    document.getElementById("energy");
+
+const questTitle =
+    document.getElementById("questTitle");
+
+const questProgress =
+    document.getElementById("questProgress");
+
+const characterBox =
+    document.getElementById("characterBox");
+
+const inventory =
+    document.getElementById("inventory");
+
+const inventoryGrid =
+    document.getElementById("inventoryGrid");
+
+const shopPanel =
+    document.getElementById("shopPanel");
+
+const shopItems =
+    document.getElementById("shopItems");
+
+const shopTitle =
+    document.getElementById("shopTitle");
+
+const shopDescription =
+    document.getElementById("shopDescription");
+
+const fishing =
+    document.getElementById("fishing");
+
+const fishingMarker =
+    document.getElementById("fishingMarker");
+
+const fishingStatus =
+    document.getElementById("fishingStatus");
+
+
+/* ==========================================================
+   GAME STATE
+========================================================== */
+
+const TILE = 48;
+
+const WORLD_W = 42;
+const WORLD_H = 30;
+
+const world = {
+    width: WORLD_W * TILE,
+    height: WORLD_H * TILE
+};
+
+let cameraX = 0;
+let cameraY = 0;
+
+let lastTime = 0;
+
+let running = false;
+
+let day = 1;
+
+let gameMinutes = 8 * 60;
+
+let coins = 50;
+
+let heart = 2;
+
+let energy = 100;
+
+let questStage = 0;
+
+let nearby = null;
+
+let dialogueIndex = 0;
+
+let dialogueQueue = [];
+
+let particles = [];
+
+let floatingTexts = [];
+
+let keys = {};
+
+let touchMoveX = 0;
+let touchMoveY = 0;
+
+let activeCharacter = "mama";
+
+
+/* ==========================================================
+   INVENTORY
+========================================================== */
+
+const inventoryData = {
+
+    icecream: {
+        name: "Es Krim Stroberi",
+        icon: "🍦",
+        amount: 0
+    },
+
+    flower: {
+        name: "Bunga",
+        icon: "🌷",
+        amount: 0
+    },
+
+    fish: {
+        name: "Ikan",
+        icon: "🐟",
+        amount: 0
+    },
+
+    seed: {
+        name: "Bibit Bunga",
+        icon: "🌱",
+        amount: 3
+    },
+
+    milk: {
+        name: "Susu",
+        icon: "🥛",
+        amount: 0
+    }
+
+};
+
+
+/* ==========================================================
+   PLAYER
+========================================================== */
+
+const players = {
+
+    mama: {
+
+        name: "Mama Ray",
+
+        icon: "🌷",
+
+        x: 12 * TILE,
+        y: 17 * TILE,
+
+        speed: 170,
+
+        direction: "up",
+
+        walking: false,
+
+        color: "#ff6f9d"
+
+    },
+
+    papah: {
+
+        name: "Papah",
+
+        icon: "🎣",
+
+        x: 18 * TILE,
+        y: 18 * TILE,
+
+        speed: 175,
+
+        direction: "down",
+
+        walking: false,
+
+        color: "#78a6d6"
+
+    }
+
+};
+
+
+function getPlayer() {
+
+    return players[activeCharacter];
+
+}
+
+
+/* ==========================================================
+   WORLD OBJECTS
+========================================================== */
+
+const objects = [];
+
+const npcs = [];
+
+const crops = [];
+
+const trees = [];
+
+const flowers = [];
+
+
+/* ==========================================================
+   COLORS
+========================================================== */
+
+const colors = {
+
+    grass: "#9ed09e",
+    grass2: "#a8d7a4",
+
+    path: "#f2d8bd",
+
+    water: "#8ccfd2",
+    waterDark: "#72b9bf",
+
+    house: "#ffd7e3",
+    roof: "#d85f86",
+
+    florist: "#fff0cf",
+    floristRoof: "#e59bb3",
+
+    shop: "#fff5d9",
+
+    wood: "#9a7056",
+
+    tree: "#4f9d72",
+    treeDark: "#397c59",
+
+    soil: "#9b765e",
+
+    flowerPink: "#ff4f87",
+
+    flowerWhite: "#fff",
+
+    skin: "#efbd9e",
+
+    hair: "#392a2f"
+
+};
+
+
+/* ==========================================================
+   RESIZE
+========================================================== */
+
+function resize() {
+
+    canvas.width =
+        innerWidth * devicePixelRatio;
+
+    canvas.height =
+        innerHeight * devicePixelRatio;
+
+    canvas.style.width =
+        innerWidth + "px";
+
+    canvas.style.height =
+        innerHeight + "px";
+
+    ctx.setTransform(
+        devicePixelRatio,
+        0,
+        0,
+        devicePixelRatio,
+        0,
+        0
+    );
+}
+
+window.addEventListener(
+    "resize",
+    resize
+);
+
+resize();
+
+
+/* ==========================================================
+   HELPERS
+========================================================== */
+
+function clamp(value,min,max) {
+
+    return Math.max(
+        min,
+        Math.min(max,value)
+    );
+
+}
+
+
+function distance(a,b) {
+
+    return Math.hypot(
+        a.x-b.x,
+        a.y-b.y
+    );
+
+}
+
+
+function random(min,max) {
+
+    return Math.random() *
+        (max-min) + min;
+
+}
+
+
+/* ==========================================================
+   WORLD GENERATION
+========================================================== */
+
+function generateWorld() {
+
+    objects.length = 0;
+    npcs.length = 0;
+    crops.length = 0;
+    trees.length = 0;
+    flowers.length = 0;
+
+
+    /* HOUSE */
+
+    objects.push({
+
+        type: "house",
+
+        x: 10*TILE,
+        y: 7*TILE,
+
+        w: 7*TILE,
+        h: 4*TILE
+
+    });
+
+
+    /* GENERAL SHOP */
+
+    objects.push({
+
+        type: "shop",
+
+        x: 24*TILE,
+        y: 6*TILE,
+
+        w: 5*TILE,
+        h: 4*TILE
+
+    });
+
+
+    /* FLORIST HOUSE */
+
+    objects.push({
+
+        type: "florist",
+
+        x: 31*TILE,
+        y: 7*TILE,
+
+        w: 6*TILE,
+        h: 4*TILE
+
+    });
+
+
+    /* POND */
+
+    objects.push({
+
+        type: "pond",
+
+        x: 25*TILE,
+        y: 18*TILE,
+
+        w: 9*TILE,
+        h: 6*TILE
+
+    });
+
+
+    /* FARM */
+
+    for(let y=13;y<17;y++) {
+
+        for(let x=5;x<10;x++) {
+
+            crops.push({
+
+                x:x*TILE+TILE/2,
+                y:y*TILE+TILE/2,
+
+                watered:false,
+                grown:false
+
+            });
+
+        }
+
+    }
+
+
+    /* TREES */
+
+    const treePositions = [
+
+        [2,3],
+        [4,5],
+        [2,22],
+        [5,25],
+
+        [18,3],
+        [20,5],
+
+        [37,3],
+        [40,5],
+
+        [38,26],
+        [34,27],
+
+        [14,25],
+        [18,27],
+
+        [22,13],
+        [39,14]
+
+    ];
+
+    treePositions.forEach(
+        ([x,y]) => {
+
+            trees.push({
+                x:x*TILE,
+                y:y*TILE
+            });
+
+        }
+    );
+
+
+    /* FLOWERS */
+
+    for(let i=0;i<120;i++) {
+
+        flowers.push({
+
+            x:random(
+                TILE,
+                world.width-TILE
+            ),
+
+            y:random(
+                TILE,
+                world.height-TILE
+            ),
+
+            type:
+                Math.random()>.5
+                    ? "pink"
+                    : "white"
+
+        });
+
+    }
+
+
+    /* BIBI */
+
+    npcs.push({
+
+        id:"bibi",
+
+        name:"Bibi Florist",
+
+        x:34*TILE,
+        y:12*TILE,
+
+        color:"#e59bb3",
+
+        icon:"👩🏻",
+
+        dialogues:[
+
+            "Mama Ray! 🌷",
+
+            "Kalau butuh bunga, datang saja ke sini.",
+
+            "Bunga juga bisa dijual kembali.",
+
+            "Tapi jangan semua dijual. Nanti desa kita botak. 😭"
+
+        ]
+
+    });
+
+
+    /* ICE CREAM SELLER */
+
+    npcs.push({
+
+        id:"icecream",
+
+        name:"Penjual Es Krim",
+
+        x:26*TILE,
+        y:11*TILE,
+
+        color:"#fff",
+
+        icon:"🍦",
+
+        dialogues:[
+
+            "Halo! Mau es krim?",
+
+            "Hari ini rasa stroberi paling laris.",
+
+            "Satu cup harganya 20 koin."
+
+        ]
+
+    });
+
+
+    /* OLD FISHERMAN */
+
+    npcs.push({
+
+        id:"fisherman",
+
+        name:"Kang Ujang",
+
+        x:36*TILE,
+        y:21*TILE,
+
+        color:"#86a7b8",
+
+        icon:"🎣",
+
+        dialogues:[
+
+            "Kalau mau mancing, Papah berdiri di dekat air.",
+
+            "Jangan terlalu dipikirkan.",
+
+            "Ikan juga punya jadwal sendiri. 😌"
+
+        ]
+
+    });
+
+}
+
+
+/* ==========================================================
+   COLLISION
+========================================================== */
+
+function isBlocked(x,y) {
+
+    const radius=15;
+
+    if(
+        x<radius ||
+        y<radius ||
+        x>world.width-radius ||
+        y>world.height-radius
+    )
+        return true;
+
+
+    for(
+        const object of objects
+    ) {
+
+        if(
+            object.type==="pond"
+        )
+            continue;
+
+
+        const left =
+            object.x-radius;
+
+        const right =
+            object.x+
+            object.w+
+            radius;
+
+        const top =
+            object.y-radius;
+
+        const bottom =
+            object.y+
+            object.h+
+            radius;
+
+
+        if(
+            x>left &&
+            x<right &&
+            y>top &&
+            y<bottom
+        )
+            return true;
+
+    }
+
+
+    for(
+        const tree of trees
+    ) {
+
+        if(
+            Math.hypot(
+                x-tree.x,
+                y-tree.y
+            )<30
+        )
+            return true;
+
+    }
+
+
+    return false;
+
+}
+
+
+/* ==========================================================
+   POND CHECK
+========================================================== */
+
+function insidePond(player) {
+
+    const pond =
+        objects.find(
+            o=>o.type==="pond"
+        );
+
+    if(!pond)
+        return false;
+
+    return(
+        player.x>pond.x &&
+        player.x<pond.x+pond.w &&
+        player.y>pond.y &&
+        player.y<pond.y+pond.h
+    );
+
+}
+
+
+/* ==========================================================
+   INPUT
+========================================================== */
+
+window.addEventListener(
+    "keydown",
+    event => {
+
+        const key =
+            event.key.toLowerCase();
+
+        keys[key]=true;
+
+
+        if(
+            key==="e" ||
+            key===" "
+        ) {
+
+            interact();
+
+        }
+
+
+        if(
+            key==="tab"
+        ) {
+
+            event.preventDefault();
+
+            switchCharacter();
+
+        }
+
+
+        if(
+            key==="i"
+        ) {
+
+            toggleInventory();
+
+        }
+
+
+        if(
+            key==="escape"
+        ) {
+
+            closeDialog();
+            closeShop();
+            closeFishing();
+            closeInventory();
+
+        }
+
+    }
+);
+
+
+window.addEventListener(
+    "keyup",
+    event => {
+
+        keys[
+            event.key.toLowerCase()
+        ]=false;
+
+    }
+);
+
+
+/* ==========================================================
+   PLAYER MOVEMENT
+========================================================== */
+
+function updatePlayer(delta) {
+
+    if(!running)
+        return;
+
+    if(
+        dialog.classList.contains("show") ||
+        shopPanel.classList.contains("show") ||
+        fishing.classList.contains("show") ||
+        inventory.classList.contains("show")
+    )
+        return;
+
+
+    const player =
+        getPlayer();
+
+
+    let x=0;
+    let y=0;
+
+
+    if(
+        keys["w"] ||
+        keys["arrowup"]
+    )
+        y--;
+
+    if(
+        keys["s"] ||
+        keys["arrowdown"]
+    )
+        y++;
+
+    if(
+        keys["a"] ||
+        keys["arrowleft"]
+    )
+        x--;
+
+    if(
+        keys["d"] ||
+        keys["arrowright"]
+    )
+        x++;
+
+
+    x+=touchMoveX;
+    y+=touchMoveY;
+
+
+    if(x!==0 || y!==0) {
+
+        const length =
+            Math.hypot(x,y);
+
+        x/=length;
+        y/=length;
+
+
+        const speed =
+            player.speed*delta;
+
+
+        const nextX =
+            player.x+x*speed;
+
+        const nextY =
+            player.y+y*speed;
+
+
+        if(
+            !isBlocked(
+                nextX,
+                player.y
+            )
+        )
+            player.x=nextX;
+
+
+        if(
+            !isBlocked(
+                player.x,
+                nextY
+            )
+        )
+            player.y=nextY;
+
+
+        player.walking=true;
+
+
+        if(
+            Math.abs(x)>
+            Math.abs(y)
+        ) {
+
+            player.direction =
+                x>0
+                    ?"right"
+                    :"left";
+
+        }
+        else {
+
+            player.direction =
+                y>0
+                    ?"down"
+                    :"up";
+
+        }
+
+    }
+    else {
+
+        player.walking=false;
+
+    }
+
+
+    player.x=
+        clamp(
+            player.x,
+            20,
+            world.width-20
+        );
+
+    player.y=
+        clamp(
+            player.y,
+            20,
+            world.height-20
+        );
+
+
+    /* POND FUN */
+
+    if(
+        activeCharacter==="mama" &&
+        insidePond(player)
+    ) {
+
+        if(
+            !player.inWater
+        ) {
+
+            player.inWater=true;
+
+            createParticle(
+                player.x,
+                player.y,
+                "💦"
+            );
+
+            showToast(
+                "Mama Ray nyemplung. 😭🌊\n\nPapah: \"Itu kolam, bukan bathtub!\""
+            );
+
+        }
+
+    }
+    else {
+
+        player.inWater=false;
+
+    }
+
+}
+
+
+/* ==========================================================
+   CHARACTER SWITCH
+========================================================== */
+
+function switchCharacter() {
+
+    if(!running)
+        return;
+
+    if(
+        dialog.classList.contains("show") ||
+        shopPanel.classList.contains("show") ||
+        fishing.classList.contains("show")
+    )
+        return;
+
+
+    activeCharacter =
+        activeCharacter==="mama"
+            ?"papah"
+            :"mama";
+
+
+    const player =
+        getPlayer();
+
+
+    characterBox.textContent =
+        activeCharacter==="mama"
+            ?"🌷 Mama Ray"
+            :"🎣 Papah";
+
+
+    showToast(
+
+        activeCharacter==="mama"
+            ?"Sekarang kamu bermain sebagai Mama Ray 🌷"
+            :"Sekarang kamu bermain sebagai Papah 🎣"
+
+    );
+
+
+    updateQuest();
+
+}
+
+
+/* ==========================================================
+   CAMERA
+========================================================== */
+
+function updateCamera() {
+
+    const player =
+        getPlayer();
+
+
+    cameraX =
+        player.x-
+        innerWidth/2;
+
+    cameraY =
+        player.y-
+        innerHeight/2;
+
+
+    cameraX=
+        clamp(
+            cameraX,
+            0,
+            Math.max(
+                0,
+                world.width-innerWidth
+            )
+        );
+
+
+    cameraY=
+        clamp(
+            cameraY,
+            0,
+            Math.max(
+                0,
+                world.height-innerHeight
+            )
+        );
+
+}
+
+
+/* ==========================================================
+   DRAW
+========================================================== */
+
+function draw() {
+
+    const w=innerWidth;
+    const h=innerHeight;
+
+
+    ctx.clearRect(
+        0,
+        0,
+        w,
+        h
+    );
+
+
+    ctx.fillStyle=
+        colors.grass;
+
+    ctx.fillRect(
+        0,
+        0,
+        w,
+        h
+    );
+
+
+    ctx.save();
+
+    ctx.translate(
+        -cameraX,
+        -cameraY
+    );
+
+
+    /* GRASS */
+
+    ctx.fillStyle=
+        colors.grass2;
+
+
+    for(
+        let y=0;
+        y<world.height;
+        y+=TILE
+    ) {
+
+        for(
+            let x=0;
+            x<world.width;
+            x+=TILE
+        ) {
+
+            if(
+                (x/TILE+y/TILE)%2===0
+            ) {
+
+                ctx.fillRect(
+                    x,
+                    y,
+                    TILE,
+                    TILE
+                );
+
+            }
+
+        }
+
+    }
+
+
+    /* PATH */
+
+    ctx.fillStyle=
+        colors.path;
+
+    ctx.fillRect(
+        9*TILE,
+        0,
+        3*TILE,
+        world.height
+    );
+
+    ctx.fillRect(
+        0,
+        9*TILE,
+        world.width,
+        3*TILE
+    );
+
+
+    /* POND */
+
+    objects
+        .filter(o=>o.type==="pond")
+        .forEach(drawPond);
+
+
+    drawFarm();
+
+
+    flowers.forEach(drawFlower);
+
+    trees.forEach(drawTree);
+
+
+    objects.forEach(
+        object=>{
+
+            if(
+                object.type==="house"
+            )
+                drawHouse(object);
+
+            if(
+                object.type==="shop"
+            )
+                drawShop(object);
+
+            if(
+                object.type==="florist"
+            )
+                drawFlorist(object);
+
+        }
+    );
+
+
+    npcs
+        .slice()
+        .sort(
+            (a,b)=>a.y-b.y
+        )
+        .forEach(drawNPC);
+
+
+    drawPlayer();
+
+
+    particles.forEach(
+        drawParticle
+    );
+
+
+    ctx.restore();
+
+
+    drawFloatingTexts();
+
+}
+
+
+/* ==========================================================
+   FARM
+========================================================== */
+
+function drawFarm() {
+
+    crops.forEach(
+        crop=>{
+
+            ctx.fillStyle=
+                colors.soil;
+
+            ctx.fillRect(
+                crop.x-19,
+                crop.y-19,
+                38,
+                38
+            );
+
+
+            if(crop.grown) {
+
+                ctx.fillStyle=
+                    colors.green;
+
+                ctx.beginPath();
+
+                ctx.arc(
+                    crop.x,
+                    crop.y-6,
+                    9,
+                    0,
+                    Math.PI*2
+                );
+
+                ctx.fill();
+
+                ctx.fillStyle=
+                    "#ff8bb0";
+
+                ctx.beginPath();
+
+                ctx.arc(
+                    crop.x-6,
+                    crop.y-12,
+                    4,
+                    0,
+                    Math.PI*2
+                );
+
+                ctx.fill();
+
+            }
+            else {
+
+                ctx.strokeStyle=
+                    "#5e8e57";
+
+                ctx.lineWidth=3;
+
+                ctx.beginPath();
+
+                ctx.moveTo(
+                    crop.x,
+                    crop.y+8
+                );
+
+                ctx.lineTo(
+                    crop.x,
+                    crop.y-5
+                );
+
+                ctx.stroke();
+
+            }
+
+        }
+    );
+
+}
+
+
+/* ==========================================================
+   POND
+========================================================== */
+
+function drawPond(o) {
+
+    ctx.fillStyle=
+        colors.waterDark;
+
+    ctx.beginPath();
+
+    ctx.roundRect(
+        o.x,
+        o.y,
+        o.w,
+        o.h,
+        35
+    );
+
+    ctx.fill();
+
+
+    ctx.fillStyle=
+        colors.water;
+
+    ctx.beginPath();
+
+    ctx.roundRect(
+        o.x+8,
+        o.y+8,
+        o.w-16,
+        o.h-16,
+        30
+    );
+
+    ctx.fill();
+
+
+    ctx.fillStyle=
+        "rgba(255,255,255,.42)";
+
+
+    for(
+        let i=0;
+        i<8;
+        i++
+    ) {
+
+        ctx.fillRect(
+            o.x+30+i*65,
+            o.y+35+(i%3)*40,
+            24,
+            3
+        );
+
+    }
+
+}
+
+
+/* ==========================================================
+   HOUSE
+========================================================== */
+
+function drawHouse(o) {
+
+    ctx.fillStyle=
+        "rgba(40,20,25,.12)";
+
+    ctx.fillRect(
+        o.x+7,
+        o.y+9,
+        o.w,
+        o.h
+    );
+
+
+    ctx.fillStyle=
+        colors.house;
+
+    ctx.fillRect(
+        o.x,
+        o.y,
+        o.w,
+        o.h
+    );
+
+
+    ctx.fillStyle=
+        colors.roof;
+
+    ctx.beginPath();
+
+    ctx.moveTo(
+        o.x-18,
+        o.y
+    );
+
+    ctx.lineTo(
+        o.x+o.w/2,
+        o.y-55
+    );
+
+    ctx.lineTo(
+        o.x+o.w+18,
+        o.y
+    );
+
+    ctx.closePath();
+
+    ctx.fill();
+
+
+    ctx.fillStyle=
+        colors.wood;
+
+    ctx.fillRect(
+        o.x+o.w/2-20,
+        o.y+o.h-55,
+        40,
+        55
+    );
+
+
+    ctx.fillStyle=
+        "#fff";
+
+    ctx.fillRect(
+        o.x+30,
+        o.y+30,
+        42,
+        34
+    );
+
+    ctx.fillRect(
+        o.x+o.w-72,
+        o.y+30,
+        42,
+        34
+    );
+
+
+    label(
+        "Rumah Mama Ray",
+        o.x+o.w/2,
+        o.y-65,
+        "#c92761"
+    );
+
+}
+
+
+/* ==========================================================
+   SHOP
+========================================================== */
+
+function drawShop(o) {
+
+    ctx.fillStyle=
+        colors.shop;
+
+    ctx.fillRect(
+        o.x,
+        o.y,
+        o.w,
+        o.h
+    );
+
+
+    ctx.fillStyle=
+        "#e7a15e";
+
+    ctx.beginPath();
+
+    ctx.moveTo(
+        o.x-10,
+        o.y
+    );
+
+    ctx.lineTo(
+        o.x+o.w/2,
+        o.y-38
+    );
+
+    ctx.lineTo(
+        o.x+o.w+10,
+        o.y
+    );
+
+    ctx.closePath();
+
+    ctx.fill();
+
+
+    ctx.fillStyle=
+        "#fff";
+
+    ctx.fillRect(
+        o.x+20,
+        o.y+45,
+        o.w-40,
+        30
+    );
+
+
+    label(
+        "🏪 TOKO",
+        o.x+o.w/2,
+        o.y-48,
+        "#c92761"
+    );
+
+}
+
+
+/* ==========================================================
+   FLORIST
+========================================================== */
+
+function drawFlorist(o) {
+
+    ctx.fillStyle=
+        colors.florist;
+
+    ctx.fillRect(
+        o.x,
+        o.y,
+        o.w,
+        o.h
+    );
+
+
+    ctx.fillStyle=
+        colors.floristRoof;
+
+    ctx.beginPath();
+
+    ctx.moveTo(
+        o.x-12,
+        o.y
+    );
+
+    ctx.lineTo(
+        o.x+o.w/2,
+        o.y-46
+    );
+
+    ctx.lineTo(
+        o.x+o.w+12,
+        o.y
+    );
+
+    ctx.closePath();
+
+    ctx.fill();
+
+
+    ctx.fillStyle=
+        "#fff";
+
+    ctx.fillRect(
+        o.x+o.w/2-20,
+        o.y+o.h-55,
+        40,
+        55
+    );
+
+
+    label(
+        "🌷 Rumah Bibi",
+        o.x+o.w/2,
+        o.y-56,
+        "#c92761"
+    );
+
+}
+
+
+/* ==========================================================
+   TREE
+========================================================== */
+
+function drawTree(tree) {
+
+    ctx.fillStyle=
+        "#8a654f";
+
+    ctx.fillRect(
+        tree.x-7,
+        tree.y,
+        14,
+        30
+    );
+
+
+    ctx.fillStyle=
+        colors.treeDark;
+
+    ctx.beginPath();
+
+    ctx.arc(
+        tree.x,
+        tree.y-5,
+        28,
+        0,
+        Math.PI*2
+    );
+
+    ctx.fill();
+
+
+    ctx.fillStyle=
+        colors.tree;
+
+    ctx.beginPath();
+
+    ctx.arc(
+        tree.x-15,
+        tree.y-12,
+        20,
+        0,
+        Math.PI*2
+    );
+
+    ctx.arc(
+        tree.x+15,
+        tree.y-12,
+        20,
+        0,
+        Math.PI*2
+    );
+
+    ctx.fill();
+
+}
+
+
+/* ==========================================================
+   FLOWER
+========================================================== */
+
+function drawFlower(flower) {
+
+    ctx.fillStyle=
+        "#4f9d72";
+
+    ctx.fillRect(
+        flower.x,
+        flower.y,
+        2,
+        7
+    );
+
+
+    ctx.fillStyle=
+        flower.type==="pink"
+            ?colors.flowerPink
+            :colors.flowerWhite;
+
+
+    ctx.beginPath();
+
+    ctx.arc(
+        flower.x+1,
+        flower.y,
+        4,
+        0,
+        Math.PI*2
+    );
+
+    ctx.fill();
+
+}
+
+
+/* ==========================================================
+   NPC
+========================================================== */
+
+function drawNPC(npc) {
+
+    ctx.save();
+
+
+    ctx.fillStyle=
+        "rgba(40,20,30,.14)";
+
+    ctx.beginPath();
+
+    ctx.ellipse(
+        npc.x,
+        npc.y+18,
+        19,
+        8,
+        0,
+        0,
+        Math.PI*2
+    );
+
+    ctx.fill();
+
+
+    ctx.fillStyle=
+        npc.color;
+
+    ctx.beginPath();
+
+    ctx.roundRect(
+        npc.x-16,
+        npc.y-7,
+        32,
+        35,
+        12
+    );
+
+    ctx.fill();
+
+
+    ctx.fillStyle=
+        colors.skin;
+
+    ctx.beginPath();
+
+    ctx.arc(
+        npc.x,
+        npc.y-20,
+        16,
+        0,
+        Math.PI*2
+    );
+
+    ctx.fill();
+
+
+    ctx.fillStyle=
+        colors.hair;
+
+    ctx.beginPath();
+
+    ctx.arc(
+        npc.x,
+        npc.y-25,
+        17,
+        Math.PI,
+        Math.PI*2
+    );
+
+    ctx.fill();
+
+
+    ctx.font=
+        "17px sans-serif";
+
+    ctx.textAlign=
+        "center";
+
+    ctx.fillText(
+        npc.icon,
+        npc.x,
+        npc.y-46
+    );
+
+
+    if(nearby===npc) {
+
+        ctx.fillStyle="#fff";
+
+        ctx.beginPath();
+
+        ctx.arc(
+            npc.x+28,
+            npc.y-48,
+            10,
+            0,
+            Math.PI*2
+        );
+
+        ctx.fill();
+
+
+        ctx.fillStyle="#c92761";
+
+        ctx.font=
+            "bold 13px sans-serif";
+
+        ctx.fillText(
+            "!",
+            npc.x+28,
+            npc.y-44
+        );
+
+    }
+
+
+    label(
+        npc.name,
+        npc.x,
+        npc.y+45,
+        "#241b20"
+    );
+
+
+    ctx.restore();
+
+}
+
+
+/* ==========================================================
+   PLAYER
+========================================================== */
+
+function drawPlayer() {
+
+    const player =
+        getPlayer();
+
+
+    const bob =
+        player.walking
+            ?Math.sin(
+                performance.now()/90
+            )*2
+            :0;
+
+
+    ctx.save();
+
+
+    if(player.inWater) {
+
+        ctx.globalAlpha=.82;
+
+        ctx.fillStyle=
+            "rgba(255,255,255,.3)";
+
+        ctx.beginPath();
+
+        ctx.ellipse(
+            player.x,
+            player.y+8,
+            28,
+            14,
+            0,
+            0,
+            Math.PI*2
+        );
+
+        ctx.fill();
+
+    }
+
+
+    ctx.fillStyle=
+        "rgba(40,20,30,.16)";
+
+    ctx.beginPath();
+
+    ctx.ellipse(
+        player.x,
+        player.y+17,
+        20,
+        8,
+        0,
+        0,
+        Math.PI*2
+    );
+
+    ctx.fill();
+
+
+    ctx.fillStyle=
+        player.color;
+
+    ctx.beginPath();
+
+    ctx.roundRect(
+        player.x-17,
+        player.y-4+bob,
+        34,
+        40,
+        13
+    );
+
+    ctx.fill();
+
+
+    ctx.fillStyle=
+        colors.skin;
+
+    ctx.beginPath();
+
+    ctx.arc(
+        player.x,
+        player.y-24+bob,
+        17,
+        0,
+        Math.PI*2
+    );
+
+    ctx.fill();
+
+
+    ctx.fillStyle=
+        colors.hair;
+
+    ctx.beginPath();
+
+    ctx.arc(
+        player.x,
+        player.y-30+bob,
+        18,
+        Math.PI,
+        Math.PI*2
+    );
+
+    ctx.fill();
+
+
+    if(activeCharacter==="mama") {
+
+        ctx.fillRect(
+            player.x-18,
+            player.y-30+bob,
+            6,
+            26
+        );
+
+        ctx.fillRect(
+            player.x+12,
+            player.y-30+bob,
+            6,
+            26
+        );
+
+
+        ctx.fillStyle="#fff";
+
+        ctx.beginPath();
+
+        ctx.arc(
+            player.x+15,
+            player.y-38+bob,
+            4,
+            0,
+            Math.PI*2
+        );
+
+        ctx.fill();
+
+    }
+    else {
+
+        ctx.fillStyle="#51423d";
+
+        ctx.fillRect(
+            player.x-18,
+            player.y-34+bob,
+            36,
+            7
+        );
+
+    }
+
+
+    ctx.restore();
+
+}
+
+
+/* ==========================================================
+   LABEL
+========================================================== */
+
+function label(text,x,y,color) {
+
+    ctx.font=
+        "800 11px Inter,sans-serif";
+
+    ctx.textAlign=
+        "center";
+
+
+    const width=
+        ctx.measureText(text).width+14;
+
+
+    ctx.fillStyle=
+        "rgba(255,255,255,.88)";
+
+    ctx.beginPath();
+
+    ctx.roundRect(
+        x-width/2,
+        y-11,
+        width,
+        20,
+        8
+    );
+
+    ctx.fill();
+
+
+    ctx.fillStyle=color;
+
+    ctx.fillText(
+        text,
+        x,
+        y+3
+    );
+
+}
+
+
+/* ==========================================================
+   PARTICLES
+========================================================== */
+
+function createParticle(x,y,text) {
+
+    particles.push({
+
+        x,
+        y,
+
+        text,
+
+        life:1,
+
+        vy:-25
+
+    });
+
+}
+
+
+function drawParticle(p) {
+
+    ctx.save();
+
+    ctx.globalAlpha=p.life;
+
+    ctx.font=
+        "20px sans-serif";
+
+    ctx.textAlign=
+        "center";
+
+    ctx.fillText(
+        p.text,
+        p.x,
+        p.y
+    );
+
+    ctx.restore();
+
+}
+
+
+function updateParticles(delta) {
+
+    particles.forEach(
+        p=>{
+
+            p.y+=p.vy*delta;
+
+            p.life-=delta;
+
+        }
+    );
+
+
+    particles=
+        particles.filter(
+            p=>p.life>0
+        );
+
+}
+
+
+/* ==========================================================
+   FLOATING TEXT
+========================================================== */
+
+function floatingText(text,x,y) {
+
+    floatingTexts.push({
+
+        text,
+        x,
+        y,
+
+        life:1
+
+    });
+
+}
+
+
+function drawFloatingTexts() {
+
+    floatingTexts.forEach(
+        f=>{
+
+            f.y-=.5;
+            f.life-=.015;
+
+
+            ctx.save();
+
+            ctx.globalAlpha=f.life;
+
+            ctx.fillStyle=
+                "#c92761";
+
+            ctx.font=
+                "900 14px Inter";
+
+            ctx.textAlign=
+                "center";
+
+            ctx.fillText(
+                f.text,
+                f.x-cameraX,
+                f.y-cameraY
+            );
+
+            ctx.restore();
+
+        }
+    );
+
+
+    floatingTexts=
+        floatingTexts.filter(
+            f=>f.life>0
+        );
+
+}
+
+
+/* ==========================================================
+   NEARBY
+========================================================== */
+
+function findNearby() {
+
+    nearby=null;
+
+
+    const player =
+        getPlayer();
+
+
+    let best=Infinity;
+
+
+    /* NPC */
+
+    for(
+        const npc of npcs
+    ) {
+
+        const d=
+            distance(
+                player,
+                npc
+            );
+
+
+        if(
+            d<70 &&
+            d<best
+        ) {
+
+            best=d;
+            nearby=npc;
+
+        }
+
+    }
+
+
+    /* CROPS */
+
+    if(activeCharacter==="mama") {
+
+        for(
+            const crop of crops
+        ) {
+
+            const d=
+                distance(
+                    player,
+                    crop
+                );
+
+
+            if(
+                d<48 &&
+                d<best
+            ) {
+
+                best=d;
+                nearby=crop;
+
+            }
+
+        }
+
+    }
+
+
+    /* POND */
+
+    const pond=
+        objects.find(
+            o=>o.type==="pond"
+        );
+
+
+    if(
+        pond &&
+        activeCharacter==="papah"
+    ) {
+
+        const fishingSpot={
+
+            x:pond.x+pond.w/2,
+            y:pond.y-25
+
+        };
+
+
+        const d=
+            distance(
+                player,
+                fishingSpot
+            );
+
+
+        if(
+            d<75 &&
+            d<best
+        ) {
+
+            best=d;
+
+            nearby={
+                type:"fishing",
+                ...fishingSpot
+            };
+
+        }
+
+    }
+
+
+    /* SHOP */
+
+    const shop=
+        objects.find(
+            o=>o.type==="shop"
+        );
+
+
+    if(shop) {
+
+        const point={
+
+            x:
+                shop.x+
+                shop.w/2,
+
+            y:
+                shop.y+
+                shop.h+
+                25
+
+        };
+
+
+        const d=
+            distance(
+                player,
+                point
+            );
+
+
+        if(
+            d<75 &&
+            d<best
+        ) {
+
+            best=d;
+
+            nearby={
+                type:"shop",
+                ...point
+            };
+
+        }
+
+    }
+
+
+    /* FLORIST */
+
+    const florist=
+        objects.find(
+            o=>o.type==="florist"
+        );
+
+
+    if(florist) {
+
+        const point={
+
+            x:
+                florist.x+
+                florist.w/2,
+
+            y:
+                florist.y+
+                florist.h+
+                25
+
+        };
+
+
+        const d=
+            distance(
+                player,
+                point
+            );
+
+
+        if(
+            d<75 &&
+            d<best
+        ) {
+
+            best=d;
+
+            nearby={
+                type:"florist",
+                ...point
+
+            };
+
+        }
+
+    }
+
+
+    updateInteractionHint();
+
+}
+
+
+function updateInteractionHint() {
+
+    if(!nearby) {
+
+        interaction.classList.remove(
+            "show"
+        );
+
+        return;
+
+    }
+
+
+    let text=
+        "E · Interaksi";
+
+
+    if(
+        nearby.id==="papah"
+    )
+        text=
+            "E · Bicara dengan Papah";
+
+
+    else if(
+        nearby.type==="fishing"
+    )
+        text=
+            "E · Mancing";
+
+
+    else if(
+        nearby.type==="shop"
+    )
+        text=
+            "E · Buka toko";
+
+
+    else if(
+        nearby.type==="florist"
+    )
+        text=
+            "E · Toko bunga";
+
+
+    else if(
+        nearby.watered!==undefined
+    )
+        text=
+            "E · Rawat tanaman";
+
+
+    interaction.textContent=
+        text;
+
+    interaction.classList.add(
+        "show"
+    );
+
+}
+
+
+/* ==========================================================
+   INTERACT
+========================================================== */
+
+function interact() {
+
+    if(!running)
+        return;
+
+
+    if(
+        dialog.classList.contains("show")
+    ) {
+
+        nextDialogue();
+
+        return;
+
+    }
+
+
+    if(
+        shopPanel.classList.contains("show")
+    )
+        return;
+
+
+    if(
+        fishing.classList.contains("show")
+    )
+        return;
+
+
+    if(!nearby)
+        return;
+
+
+    /* QUEST PAPAH */
+
+    if(
+        nearby.id==="papah" &&
+        questStage===2 &&
+        inventoryData.icecream.amount>0
+    ) {
+
+        completeIceCreamQuest();
+
+        return;
+
+    }
+
+
+    /* NPC */
+
+    if(nearby.id) {
+
+        openNPC(nearby);
+
+        return;
+
+    }
+
+
+    /* CROP */
+
+    if(
+        nearby.watered!==undefined
+    ) {
+
+        waterCrop(nearby);
+
+        return;
+
+    }
+
+
+    /* SHOP */
+
+    if(
+        nearby.type==="shop"
+    ) {
+
+        openGeneralShop();
+
+        return;
+
+    }
+
+
+    /* FLORIST */
+
+    if(
+        nearby.type==="florist"
+    ) {
+
+        openFlorist();
+
+        return;
+
+    }
+
+
+    /* FISHING */
+
+    if(
+        nearby.type==="fishing"
+    ) {
+
+        startFishing();
+
+        return;
+
+    }
+
+}
+
+
+/* ==========================================================
+   NPC
+========================================================== */
+
+function openNPC(npc) {
+
+    dialogueQueue=
+        [...npc.dialogues];
+
+    dialogueIndex=0;
+
+
+    dialogName.textContent=
+        npc.name;
+
+    dialogText.textContent=
+        dialogueQueue[0];
+
+
+    dialog.classList.add(
+        "show"
+    );
+
+
+    if(
+        npc.id==="papah" &&
+        questStage===0
+    ) {
+
+        questStage=1;
+
+        updateQuest();
+
+        save();
+
+    }
+
+}
+
+
+function nextDialogue() {
+
+    dialogueIndex++;
+
+
+    if(
+        dialogueIndex>=
+        dialogueQueue.length
+    ) {
+
+        closeDialog();
+
+        return;
+
+    }
+
+
+    dialogText.textContent=
+        dialogueQueue[
+            dialogueIndex
+        ];
+
+}
+
+
+function closeDialog() {
+
+    dialog.classList.remove(
+        "show"
+    );
+
+}
+
+
+/* ==========================================================
+   QUEST
+========================================================== */
+
+function updateQuest() {
+
+    questTitle.textContent=
+        "Ajak Papah jajan es krim";
+
+
+    if(
+        questStage===0
+    ) {
+
+        questProgress.textContent=
+            "Temui Papah";
+
+    }
+
+    else if(
+        questStage===1
+    ) {
+
+        questProgress.textContent=
+            "Beli es krim di toko · 20 🪙";
+
+    }
+
+    else if(
+        questStage===2
+    ) {
+
+        questProgress.textContent=
+            inventoryData.icecream.amount>0
+                ?"Berikan es krim ke Papah"
+                :"Belum punya es krim";
+
+    }
+
+    else {
+
+        questProgress.textContent=
+            "✓ Selesai · Papah senang";
+
+    }
+
+}
+
+
+/* ==========================================================
+   QUEST COMPLETE
+========================================================== */
+
+function completeIceCreamQuest() {
+
+    inventoryData.icecream.amount--;
+
+    questStage=3;
+
+    heart+=3;
+
+    coins+=35;
+
+    energy=
+        Math.min(
+            100,
+            energy+15
+        );
+
+
+    updateHUD();
+    renderInventory();
+
+
+    createParticle(
+        getPlayer().x,
+        getPlayer().y-35,
+        "💗"
+    );
+
+    createParticle(
+        getPlayer().x+25,
+        getPlayer().y-25,
+        "🍦"
+    );
+
+
+    floatingText(
+        "+3 💗   +35 🪙",
+        getPlayer().x,
+        getPlayer().y-60
+    );
+
+
+    showToast(
+        "Quest selesai! Papah dapat es krim. 🍦💗"
+    );
+
+
+    save();
+
+}
+
+
+/* ==========================================================
+   GENERAL SHOP
+========================================================== */
+
+function openGeneralShop() {
+
+    shopTitle.textContent=
+        "🏪 Toko Serba Ada";
+
+    shopDescription.textContent=
+        "Barang yang sudah kamu punya tidak perlu dibeli lagi.";
+
+
+    shopItems.innerHTML="";
+
+
+    addShopItem(
+        "icecream",
+        "🍦",
+        "Es Krim Stroberi",
+        "20 🪙",
+        questStage===1
+            ?"Untuk quest Papah"
+            :"Camilan"
+    );
+
+
+    addShopItem(
+        "seed",
+        "🌱",
+        "Bibit Bunga",
+        "10 🪙",
+        "Untuk kebun"
+    );
+
+
+    addShopItem(
+        "milk",
+        "🥛",
+        "Susu",
+        "15 🪙",
+        "Energi kecil"
+    );
+
+
+    shopPanel.classList.add(
+        "show"
+    );
+
+}
+
+
+function addShopItem(
+    id,
+    icon,
+    name,
+    price,
+    description
+) {
+
+    const item=
+        inventoryData[id];
+
+
+    const wrapper=
+        document.createElement("div");
+
+    wrapper.className=
+        "shop-item";
+
+
+    const owned=
+        item.amount>0 &&
+        id!=="seed";
+
+
+    wrapper.innerHTML=`
+
+        <div class="shop-icon">
+            ${icon}
+        </div>
+
+        <div class="shop-info">
+
+            <strong>
+                ${name}
+            </strong>
+
+            <span>
+                ${description}
+            </span>
+
+        </div>
+
+        <button
+            class="buy-button ${
+                owned
+                    ?"owned"
+                    :""
+            }"
+        >
+            ${
+                owned
+                    ?"✓ Punya"
+                    :price
+            }
+        </button>
+
+    `;
+
+
+    const button=
+        wrapper.querySelector(
+            "button"
+        );
+
+
+    if(owned) {
+
+        button.disabled=true;
+
+    }
+    else {
+
+        button.addEventListener(
+            "click",
+            ()=>{
+
+                buyItem(
+                    id,
+                    Number(
+                        price.replace(
+                            /\D/g,
+                            ""
+                        )
+                    )
+                );
+
+            }
+        );
+
+    }
+
+
+    shopItems.appendChild(
+        wrapper
+    );
+
+}
+
+
+/* ==========================================================
+   BUY ITEM
+========================================================== */
+
+function buyItem(id,price) {
+
+    const item=
+        inventoryData[id];
+
+
+    if(
+        id!=="seed" &&
+        item.amount>0
+    ) {
+
+        showToast(
+            `${item.name} sudah ada di tas. 🎒`
+        );
+
+        return;
+
+    }
+
+
+    if(coins<price) {
+
+        showToast(
+            `Koinmu kurang ${price-coins}. 🪙`
+        );
+
+        return;
+
+    }
+
+
+    coins-=price;
+
+    item.amount++;
+
+
+    updateHUD();
+    renderInventory();
+
+    showToast(
+        `${item.name} masuk ke tas. 🎒`
+    );
+
+
+    openGeneralShop();
+
+    save();
+
+}
+
+
+/* ==========================================================
+   FLORIST
+========================================================== */
+
+function openFlorist() {
+
+    shopTitle.textContent=
+        "🌷 Bibi Florist";
+
+    shopDescription.textContent=
+        "Jual bunga yang kamu punya dan beli bibit baru.";
+
+
+    shopItems.innerHTML="";
+
+
+    addSellItem(
+        "flower",
+        "🌷",
+        "Jual bunga",
+        8
+    );
+
+
+    addSellItem(
+        "fish",
+        "🐟",
+        "Jual ikan",
+        12
+    );
+
+
+    addShopItem(
+        "seed",
+        "🌱",
+        "Bibit Bunga",
+        "10 🪙",
+        "Tanam di kebun"
+    );
+
+
+    shopPanel.classList.add(
+        "show"
+    );
+
+}
+
+
+function addSellItem(
+    id,
+    icon,
+    name,
+    price
+) {
+
+    const amount=
+        inventoryData[id].amount;
+
+
+    const wrapper=
+        document.createElement("div");
+
+    wrapper.className=
+        "shop-item";
+
+
+    wrapper.innerHTML=`
+
+        <div class="shop-icon">
+            ${icon}
+        </div>
+
+        <div class="shop-info">
+
+            <strong>
+                ${name}
+            </strong>
+
+            <span>
+                Punya ${amount} · +${price} 🪙
+            </span>
+
+        </div>
+
+        <button
+            class="buy-button ${
+                amount<=0
+                    ?"disabled"
+                    :""
+            }"
+        >
+            Jual
+        </button>
+
+    `;
+
+
+    const button=
+        wrapper.querySelector(
+            "button"
+        );
+
+
+    if(amount<=0) {
+
+        button.disabled=true;
+
+    }
+    else {
+
+        button.addEventListener(
+            "click",
+            ()=>{
+
+                inventoryData[id].amount--;
+
+                coins+=price;
+
+                updateHUD();
+                renderInventory();
+
+                showToast(
+                    `+${price} 🪙`
+                );
+
+                openFlorist();
+
+                save();
+
+            }
+        );
+
+    }
+
+
+    shopItems.appendChild(
+        wrapper
+    );
+
+}
+
+
+/* ==========================================================
+   CLOSE SHOP
+========================================================== */
+
+function closeShop() {
+
+    shopPanel.classList.remove(
+        "show"
+    );
+
+}
+
+
+document
+    .getElementById("shopClose")
+    .addEventListener(
+        "click",
+        closeShop
+    );
+
+
+/* ==========================================================
+   INVENTORY
+========================================================== */
+
+function renderInventory() {
+
+    inventoryGrid.innerHTML="";
+
+
+    let hasItem=false;
+
+
+    Object.entries(
+        inventoryData
+    ).forEach(
+        ([id,item])=>{
+
+            if(item.amount<=0)
+                return;
+
+
+            hasItem=true;
+
+
+            const element=
+                document.createElement("div");
+
+            element.className=
+                "inventory-item";
+
+
+            element.innerHTML=`
+
+                <div class="icon">
+                    ${item.icon}
+                </div>
+
+                <div>
+                    ${item.name}
+                </div>
+
+                <strong>
+                    ×${item.amount}
+                </strong>
+
+            `;
+
+
+            inventoryGrid.appendChild(
+                element
+            );
+
+        }
+    );
+
+
+    if(!hasItem) {
+
+        inventoryGrid.innerHTML=`
+
+            <div class="inventory-empty">
+                Tas masih kosong.
+                <br>
+                Jalan-jalan dulu yuk 🌷
+            </div>
+
+        `;
+
+    }
+
+}
+
+
+function toggleInventory() {
+
+    if(
+        inventory.classList.contains(
+            "show"
+        )
+    ) {
+
+        closeInventory();
+
+    }
+    else {
+
+        renderInventory();
+
+        inventory.classList.add(
+            "show"
+        );
+
+    }
+
+}
+
+
+function closeInventory() {
+
+    inventory.classList.remove(
+        "show"
+    );
+
+}
+
+
+document
+    .getElementById("inventoryClose")
+    .addEventListener(
+        "click",
+        closeInventory
+    );
+
+
+/* ==========================================================
+   WATER CROPS
+========================================================== */
+
+function waterCrop(crop) {
+
+    if(energy<=0) {
+
+        showToast(
+            "Mama Ray sudah capek. Istirahat dulu. 🥺"
+        );
+
+        return;
+
+    }
+
+
+    if(crop.watered) {
+
+        showToast(
+            "Tanaman ini sudah disiram. 🌱"
+        );
+
+        return;
+
+    }
+
+
+    crop.watered=true;
+
+    energy-=5;
+
+
+    updateHUD();
+
+
+    createParticle(
+        crop.x,
+        crop.y,
+        "💧"
+    );
+
+
+    floatingText(
+        "-5 ⚡",
+        crop.x,
+        crop.y-25
+    );
+
+
+    showToast(
+        "Tanaman disiram. 🌱"
+    );
+
+
+    save();
+
+}
+
+
+/* ==========================================================
+   FISHING
+========================================================== */
+
+let fishingPosition=0;
+
+let fishingDirection=1;
+
+let fishingInterval=null;
+
+
+function startFishing() {
+
+    if(activeCharacter!=="papah")
+        return;
+
+
+    fishingPosition=10;
+
+    fishingDirection=1;
+
+
+    fishingStatus.textContent=
+        "Tunggu sampai penanda masuk area hijau.";
+
+
+    fishing.classList.add(
+        "show"
+    );
+
+
+    clearInterval(
+        fishingInterval
+    );
+
+
+    fishingInterval=
+        setInterval(
+            ()=>{
+
+                fishingPosition+=
+                    fishingDirection*2.2;
+
+
+                if(
+                    fishingPosition>=94
+                ) {
+
+                    fishingDirection=-1;
+
+                }
+
+
+                if(
+                    fishingPosition<=2
+                ) {
+
+                    fishingDirection=1;
+
+                }
+
+
+                fishingMarker.style.left=
+                    fishingPosition+"%";
+
+            },
+            30
+        );
+
+}
+
+
+function catchFish() {
+
+    const inside=
+        fishingPosition>=45 &&
+        fishingPosition<=65;
+
+
+    clearInterval(
+        fishingInterval
+    );
+
+
+    if(inside) {
+
+        inventoryData.fish.amount++;
+
+        coins+=5;
+
+        energy=
+            Math.max(
+                0,
+                energy-3
+            );
+
+
+        fishingStatus.textContent=
+            "Dapat ikan! 🐟";
+
+
+        createParticle(
+            getPlayer().x,
+            getPlayer().y-35,
+            "🐟"
+        );
+
+
+        updateHUD();
+        renderInventory();
+
+        showToast(
+            "Papah menangkap ikan! 🐟 +5 🪙"
+        );
+
+
+        setTimeout(
+            closeFishing,
+            800
+        );
+
+
+        save();
+
+    }
+    else {
+
+        fishingStatus.textContent=
+            "Ikannya kabur. 😭";
+
+
+        showToast(
+            "Ikan kabur! Coba lagi. 🎣"
+        );
+
+
+        setTimeout(
+            closeFishing,
+            700
+        );
+
+    }
+
+}
+
+
+function closeFishing() {
+
+    clearInterval(
+        fishingInterval
+    );
+
+    fishing.classList.remove(
+        "show"
+    );
+
+}
+
+
+document
+    .getElementById("fishingCatch")
+    .addEventListener(
+        "click",
+        catchFish
+    );
+
+
+/* ==========================================================
+   TIME
+========================================================== */
+
+function updateTime(delta) {
+
+    if(!running)
+        return;
+
+
+    gameMinutes+=
+        delta*2;
+
+
+    if(
+        gameMinutes>=22*60
+    ) {
+
+        nextDay();
+
+    }
+
+
+    const hour=
+        Math.floor(
+            gameMinutes/60
+        );
+
+
+    const minute=
+        Math.floor(
+            gameMinutes%60
+        );
+
+
+    timeElement.textContent=
+        String(hour).padStart(2,"0")
+        +
+        ":"
+        +
+        String(minute).padStart(2,"0");
+
+}
+
+
+function nextDay() {
+
+    day++;
+
+    gameMinutes=
+        8*60;
+
+    energy=100;
+
+
+    crops.forEach(
+        crop=>{
+
+            if(crop.watered)
+                crop.grown=true;
+
+            crop.watered=false;
+
+        }
+    );
+
+
+    updateHUD();
+
+
+    showToast(
+        "Hari baru dimulai. 🌤️"
+    );
+
+
+    save();
+
+}
+
+
+/* ==========================================================
+   HUD
+========================================================== */
+
+function updateHUD() {
+
+    dayElement.textContent=
+        day;
+
+    heartElement.textContent=
+        heart;
+
+    coinsElement.textContent=
+        coins;
+
+    energyElement.style.width=
+        energy+"%";
+
+
+    updateQuest();
+
+}
+
+
+/* ==========================================================
+   TOAST
+========================================================== */
+
+let toastTimer;
+
+
+function showToast(text) {
+
+    toast.textContent=
+        text;
+
+
+    toast.classList.add(
+        "show"
+    );
+
+
+    clearTimeout(
+        toastTimer
+    );
+
+
+    toastTimer=
+        setTimeout(
+            ()=>{
+                toast.classList.remove(
+                    "show"
+                );
+            },
+            2400
+        );
+
+}
+
+
+/* ==========================================================
+   SAVE
+========================================================== */
+
+function save() {
+
+    const data={
+
+        day,
+        gameMinutes,
+
+        coins,
+        heart,
+        energy,
+
+        questStage,
+
+        activeCharacter,
+
+        inventory:
+            Object.fromEntries(
+                Object.entries(
+                    inventoryData
+                ).map(
+                    ([key,item])=>[
+                        key,
+                        item.amount
+                    ]
+                )
+            ),
+
+        crops:
+            crops.map(
+                crop=>({
+
+                    watered:
+                        crop.watered,
+
+                    grown:
+                        crop.grown
+
+                })
+            )
+
+    };
+
+
+    localStorage.setItem(
+        "mamaRayWorldSave",
+        JSON.stringify(data)
+    );
+
+}
+
+
+/* ==========================================================
+   LOAD
+========================================================== */
+
+function load() {
+
+    const raw=
+        localStorage.getItem(
+            "mamaRayWorldSave"
+        );
+
+
+    if(!raw)
+        return;
+
+
+    try {
+
+        const data=
+            JSON.parse(raw);
+
+
+        day=
+            data.day??1;
+
+        gameMinutes=
+            data.gameMinutes??
+            8*60;
+
+        coins=
+            data.coins??50;
+
+        heart=
+            data.heart??2;
+
+        energy=
+            data.energy??100;
+
+        questStage=
+            data.questStage??0;
+
+
+        if(
+            data.activeCharacter
+        ) {
+
+            activeCharacter=
+                data.activeCharacter;
+
+        }
+
+
+        if(
+            data.inventory
+        ) {
+
+            Object.keys(
+                inventoryData
+            ).forEach(
+                key=>{
+
+                    if(
+                        key==="seed" &&
+                        data.inventory[key]===undefined
+                    )
+                        return;
+
+
+                    inventoryData[key].amount=
+                        data.inventory[key]??0;
+
+                }
+            );
+
+        }
+
+
+        if(data.crops) {
+
+            data.crops.forEach(
+                (saved,i)=>{
+
+                    if(crops[i]) {
+
+                        crops[i].watered=
+                            saved.watered;
+
+                        crops[i].grown=
+                            saved.grown;
+
+                    }
+
+                }
+            );
+
+        }
+
+
+    }
+    catch(error) {
+
+        console.warn(
+            "Save tidak bisa dibaca."
+        );
+
+    }
+
+}
+
+
+/* ==========================================================
+   MOBILE JOYSTICK
+========================================================== */
+
+const joystick=
+    document.getElementById(
+        "joystick"
+    );
+
+const stick=
+    document.getElementById(
+        "stick"
+    );
+
+
+let joystickActive=false;
+
+
+joystick.addEventListener(
+    "pointerdown",
+    event=>{
+
+        joystickActive=true;
+
+        joystick.setPointerCapture(
+            event.pointerId
+        );
+
+        updateJoystick(event);
+
+    }
+);
+
+
+joystick.addEventListener(
+    "pointermove",
+    event=>{
+
+        if(joystickActive)
+            updateJoystick(event);
+
+    }
+);
+
+
+joystick.addEventListener(
+    "pointerup",
+    resetJoystick
+);
+
+
+joystick.addEventListener(
+    "pointercancel",
+    resetJoystick
+);
+
+
+function updateJoystick(event) {
+
+    const rect=
+        joystick.getBoundingClientRect();
+
+
+    const centerX=
+        rect.left+
+        rect.width/2;
+
+    const centerY=
+        rect.top+
+        rect.height/2;
+
+
+    let x=
+        event.clientX-centerX;
+
+    let y=
+        event.clientY-centerY;
+
+
+    const max=30;
+
+
+    const length=
+        Math.hypot(x,y);
+
+
+    if(length>max) {
+
+        x=
+            x/length*max;
+
+        y=
+            y/length*max;
+
+    }
+
+
+    stick.style.transform=
+        `translate(
+            calc(-50% + ${x}px),
+            calc(-50% + ${y}px)
+        )`;
+
+
+    touchMoveX=
+        x/max;
+
+    touchMoveY=
+        y/max;
+
+}
+
+
+function resetJoystick() {
+
+    joystickActive=false;
+
+    touchMoveX=0;
+    touchMoveY=0;
+
+
+    stick.style.transform=
+        "translate(-50%,-50%)";
+
+}
+
+
+/* ==========================================================
+   MOBILE BUTTONS
+========================================================== */
+
+document
+    .getElementById("mobileAction")
+    .addEventListener(
+        "click",
+        interact
+    );
+
+
+document
+    .getElementById("mobileSwitch")
+    .addEventListener(
+        "click",
+        switchCharacter
+    );
+
+
+document
+    .getElementById("mobileBag")
+    .addEventListener(
+        "click",
+        toggleInventory
+    );
+
+
+/* ==========================================================
+   START
+========================================================== */
+
+document
+    .getElementById("startGame")
+    .addEventListener(
+        "click",
+        ()=>{
+
+            generateWorld();
+
+            load();
+
+            updateHUD();
+
+            renderInventory();
+
+
+            characterBox.textContent=
+                activeCharacter==="mama"
+                    ?"🌷 Mama Ray"
+                    :"🎣 Papah";
+
+
+            home.classList.add(
+                "hide"
+            );
+
+            hud.classList.add(
+                "active"
+            );
+
+            running=true;
+
+
+            showToast(
+                "Selamat datang di Little World 🌷"
+            );
+
+        }
+    );
+
+
+/* ==========================================================
+   DIALOG BUTTONS
+========================================================== */
+
+document
+    .getElementById("dialogClose")
+    .addEventListener(
+        "click",
+        closeDialog
+    );
+
+
+document
+    .getElementById("dialogNext")
+    .addEventListener(
+        "click",
+        nextDialogue
+    );
+
+
+/* ==========================================================
+   MAIN LOOP
+========================================================== */
+
+function loop(timestamp) {
+
+    if(!lastTime)
+        lastTime=timestamp;
+
+
+    const delta=
+        Math.min(
+            (timestamp-lastTime)/1000,
+            .05
+        );
+
+
+    lastTime=timestamp;
+
+
+    updatePlayer(delta);
+
+    updateCamera();
+
+    findNearby();
+
+    updateTime(delta);
+
+    updateParticles(delta);
+
+    draw();
+
+
+    requestAnimationFrame(loop);
+
+}
+
+
+requestAnimationFrame(loop);
+
+
+/* ==========================================================
+   AUTO SAVE
+========================================================== */
+
+setInterval(
+    ()=>{
+
+        if(running)
+            save();
+
+    },
+    5000
+);
+
+
+/* ==========================================================
+   INITIAL
+========================================================== */
+
+updateHUD();
+
+renderInventory();
+
+</script>
+
+</body>
+      </html>
